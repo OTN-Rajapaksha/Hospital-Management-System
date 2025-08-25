@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1 class="title">Appointments</h1>
+<table>
+  <thead>
+    <tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Start</th><th>End</th><th>Status</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    {% for a in appts %}
+    <tr>
+      <td>{{a.appointment_id}}</td>
+      <td>{{a.patient}}</td>
+      <td>{{a.doctor}}</td>
+      <td>{{a.start_time}}</td>
+      <td>{{a.end_time}}</td>
+      <td><span class="pill">{{a.status}}</span></td>
+      <td>{{a.notes}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<p style="margin-top:10px;"><a href="{{ url_for('home') }}">← Back</a></p>
+{% endblock %}

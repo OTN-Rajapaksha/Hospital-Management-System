@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1 class="title">Doctors</h1>
+<p><a class="btn success" href="{{ url_for('doctor_new') }}">+ Add Doctor</a></p>
+<table>
+  <thead><tr><th>ID</th><th>Name</th><th>Specialization</th><th>Actions</th></tr></thead>
+  <tbody>
+  {% for r in rows %}
+    <tr>
+      <td>{{r.doctor_id}}</td>
+      <td>{{r.full_name}}</td>
+      <td><span class="badge">{{r.specialization}}</span></td>
+      <td>
+        <form action="{{ url_for('doctor_delete', doctor_id=r.doctor_id) }}" method="post" style="display:inline;">
+          <button class="btn danger" type="submit" onclick="return confirm('Delete this doctor?')">Delete</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<p style="margin-top:10px;"><a href="{{ url_for('home') }}">← Back</a></p>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1 class="title">Add Patient</h1>
+<div class="card">
+  <form class="form" method="post">
+    <div class="grid cols-3">
+      <label>Full Name *
+        <input name="full_name" required placeholder="e.g., Alice Johnson">
+      </label>
+      <label>Date of Birth
+        <input name="date_of_birth" placeholder="YYYY-MM-DD">
+      </label>
+      <label>Gender
+        <select name="gender">
+          <option value="">-- Select --</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+      </label>
+      <label>Phone
+        <input name="phone" placeholder="e.g., 0771234567">
+      </label>
+      <label>Email
+        <input type="email" name="email" placeholder="e.g., alice@example.com">
+      </label>
+    </div>
+    <br>
+    <button class="btn" type="submit">Save</button>
+    <a class="pill" href="{{ url_for('patients') }}" style="margin-left:10px;">Cancel</a>
+  </form>
+</div>
+{% endblock %}

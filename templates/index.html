@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1 class="title">Dashboard</h1>
+
+<section class="hero">
+  <div class="card">
+    <div class="grid cols-2">
+      <div class="stat">
+        <div>
+          <div class="kicker">Patients</div>
+          <div class="num">{{ counts.patients }}</div>
+        </div>
+        <a class="btn secondary" href="{{ url_for('patients') }}">View</a>
+      </div>
+      <div class="stat">
+        <div>
+          <div class="kicker">Doctors</div>
+          <div class="num">{{ counts.doctors }}</div>
+        </div>
+        <a class="btn secondary" href="{{ url_for('doctors') }}">View</a>
+      </div>
+      <div class="stat">
+        <div>
+          <div class="kicker">Appointments</div>
+          <div class="num">{{ counts.appts }}</div>
+        </div>
+        <a class="btn secondary" href="{{ url_for('appointments') }}">View</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Quick Actions</h2>
+    <div class="card-actions">
+      <a class="btn" href="{{ url_for('patient_new') }}">+ Add Patient</a>
+      <a class="btn success" href="{{ url_for('doctor_new') }}">+ Add Doctor</a>
+      <a class="btn" href="{{ url_for('reports') }}">📊 Reports</a>
+    </div>
+    <p class="kicker" style="margin-top:10px;">Use these shortcuts to manage core entities quickly.</p>
+  </div>
+</section>
+
+<section class="card" style="margin-top:16px;">
+  <h2>Book Appointment</h2>
+  <form class="form" action="{{ url_for('book') }}" method="post">
+    <div class="grid cols-3">
+      <label>Patient
+        <select name="patient_id" required>
+          {% for p in patients %}
+            <option value="{{p.patient_id}}">{{p.full_name}}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Doctor
+        <select name="doctor_id" required>
+          {% for d in doctors %}
+            <option value="{{d.doctor_id}}">{{d.full_name}} ({{d.specialization}})</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Room (optional)
+        <input name="room_id" placeholder="e.g., 1">
+      </label>
+      <label>Start Time*
+        <input name="start_time" placeholder="YYYY-MM-DD HH:MM" required>
+      </label>
+      <label>End Time
+        <input name="end_time" placeholder="YYYY-MM-DD HH:MM">
+      </label>
+      <label>Notes
+        <input name="notes" placeholder="Brief note">
+      </label>
+    </div>
+    <br><button class="btn" type="submit">Book</button>
+  </form>
+</section>
+{% endblock %}

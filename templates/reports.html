@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1 class="title">Reports & Analytics</h1>
+
+<div class="grid cols-3" style="margin-bottom:14px;">
+  <div class="stat"><div><div class="kicker">Total Patients</div><div class="num">{{ counts.patients }}</div></div></div>
+  <div class="stat"><div><div class="kicker">Total Doctors</div><div class="num">{{ counts.doctors }}</div></div></div>
+  <div class="stat"><div><div class="kicker">Total Appointments</div><div class="num">{{ counts.appts }}</div></div></div>
+</div>
+
+<div class="grid cols-2">
+  <div class="card">
+    <h2>Appointments per Doctor</h2>
+    <canvas id="perDoctor"></canvas>
+  </div>
+  <div class="card">
+    <h2>Appointments by Room (Top 10)</h2>
+    <canvas id="byRoom"></canvas>
+  </div>
+</div>
+
+<div class="card" style="margin-top:14px;">
+  <h2>Table: Appointments per Doctor</h2>
+  <table>
+    <thead><tr><th>Doctor</th><th>Total Appointments</th></tr></thead>
+    <tbody>
+      {% for r in per_doc %}
+        <tr><td>{{r.doctor}}</td><td>{{r.total}}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const labels = {{ chart_labels|tojson }};
+const values = {{ chart_values|tojson }};
+
+const ctx1 = document.getElementById('perDoctor').getContext('2d');
+new Chart(ctx1, {
+  type: 'bar',
+  data: {
+    labels: labels,
+    datasets: [{
+      label: 'Appointments',
+      data: values
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: { y: { beginAtZero: true } }
+  }
+});
+
+const roomLabels = {{ room_labels|tojson }};
+const roomValues = {{ room_values|tojson }};
+const ctx2 = document.getElementById('byRoom').getContext('2d');
+new Chart(ctx2, {
+  type: 'bar',
+  data: {
+    labels: roomLabels,
+    datasets: [{
+      label: 'Appointments',
+      data: roomValues
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: { y: { beginAtZero: true } }
+  }
+});
+</script>
+{% endblock %}

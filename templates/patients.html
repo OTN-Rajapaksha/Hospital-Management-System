@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1 class="title">Patients</h1>
+<p><a class="btn" href="{{ url_for('patient_new') }}">+ Add Patient</a></p>
+<table>
+  <thead><tr><th>ID</th><th>Name</th><th>DOB</th><th>Gender</th><th>Phone</th><th>Email</th><th>Actions</th></tr></thead>
+  <tbody>
+  {% for r in rows %}
+    <tr>
+      <td>{{r.patient_id}}</td>
+      <td>{{r.full_name}}</td>
+      <td>{{r.date_of_birth}}</td>
+      <td>{{r.gender}}</td>
+      <td>{{r.phone}}</td>
+      <td>{{r.email}}</td>
+      <td>
+        <form action="{{ url_for('patient_delete', patient_id=r.patient_id) }}" method="post" style="display:inline;">
+          <button class="btn danger" type="submit" onclick="return confirm('Delete this patient?')">Delete</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<p style="margin-top:10px;"><a href="{{ url_for('home') }}">← Back</a></p>
+{% endblock %}
